@@ -10,23 +10,27 @@ namespace IIR {
 
 IIR::IIR() {
     mCalcFunc = make_calc_function<IIR, &IIR::next>();
+    prevSample = 0.0;
     next(1);
 }
 
 void IIR::next(int nSamples) {
 
-    // Audio rate input
-    const float* input = in(0);
-
-    // Control rate parameter: gain.
-    const float gain = in0(1);
+    // args
+    const float* input = in(0); 
+    const float a1 = in0(1);
+    const float b0 = in0(2);
+    const float b1 = in0(3);
 
     // Output buffer
-    float* outbuf = out(0);
+    float* output = out(0);
 
-    // simple gain function
+    // IIR function - signal is delayed by one sample. sig * b0 and delayed sig * b1 are summed to output. delayed sig * a0 is added to input.
+    // so I need a buffer, a delayed sig
     for (int i = 0; i < nSamples; ++i) {
-        outbuf[i] = input[i] * gain;
+        float filtered = ((input[i] + (prevSample * -a1)) * b0) + (prevSample * b1);
+        output[i] = zapgremlins(filtered);
+        prevSample = output[i];
     }
 }
 

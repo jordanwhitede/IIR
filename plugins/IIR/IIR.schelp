@@ -10,12 +10,15 @@ A simple IIR filter
 
 classmethods::
 
-method::ar, kr
+method::ar 
 
-argument::TODO
+argument::input
 
-argument::TODO
+argument::a1
 
+argument::b0
+
+argument::b1
 
 examples::
 

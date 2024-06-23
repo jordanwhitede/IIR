@@ -18,7 +18,8 @@ private:
     // Calc function
     void next(int nSamples);
 
-    // Member variables
+    // Member variables 
+    float prevSample;
 };
 
 } // namespace IIR
